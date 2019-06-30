@@ -1,0 +1,3 @@
+SID int ^
+CID int ^
+time varchar ^
