@@ -9,7 +9,7 @@ public class TestClient {
 
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-        dataOutputStream.writeUTF("insert into student(SID,classes,sname,sex) values(4,1802,夙玉,女) ;\n");
+        dataOutputStream.writeUTF("insert into student(SID,classes,sname,sex) values(5,1802,夙瑶,女) ;\n");
         list = (List)objectInputStream.readObject();
         System.out.println(list);
     }

@@ -148,9 +148,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="171" />
-    <option name="y" value="6" />
-    <option name="width" value="1562" />
+    <option name="x" value="170" />
+    <option name="y" value="5" />
+    <option name="width" value="1563" />
     <option name="height" value="1007" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -254,7 +254,7 @@
       <updated>1561790715133</updated>
       <workItem from="1561790719300" duration="20940000" />
       <workItem from="1561873444535" duration="8967000" />
-      <workItem from="1561884539745" duration="1736000" />
+      <workItem from="1561884539745" duration="1926000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1561798010073</created>
@@ -288,7 +288,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31643000" />
+    <option name="totallyTimeSpent" value="31833000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
