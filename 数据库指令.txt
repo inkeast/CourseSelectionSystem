@@ -1,8 +1,10 @@
 查询：    select [] from [] where [] ;
 创建表：create table [] ([] [],[] []) ;
 加入信息：insert into student(SID,classes,sname,sex) values(1,1801,张三,男) ;
-
+删除信息： delete from [] where [] ;
 
 
 insert into student(SID,classes,sname,sex) values(1,1801,张三,男) ;
 insert into course(CID,cname,tolnum,renum,penum) values(1,高等数学,500,500,0) ;
+delete from student where SID = 5 and sex = 女 ;
+update student set sname = 慕灵 , sex= 女 where SID = 2 ;

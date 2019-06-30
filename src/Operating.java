@@ -24,6 +24,8 @@ public class Operating {
     public List dbms_online(String cmd){
         Matcher matcherSelect = PATTERN_SELECT.matcher(cmd);
         Matcher matcherInsert = PATTERN_INSERT.matcher(cmd);
+        Matcher matcherDelete = PATTERN_DELETE.matcher(cmd);
+        Matcher matcherUpdate = PATTERN_UPDATE.matcher(cmd);
 
         List result=null;
         if(matcherSelect.find()) {
@@ -32,7 +34,12 @@ public class Operating {
         if(matcherInsert.find()) {
             result = insert(matcherInsert);
         }
-
+        if(matcherDelete.find()) {
+            result = delete(matcherDelete);
+        }
+        if(matcherUpdate.find()) {
+            result = update(matcherUpdate);
+        }
         return result;
     }
 
@@ -330,15 +337,16 @@ public class Operating {
         return  success;
     }
 
-    private void update(Matcher matcherUpdate) {
+    private List update(Matcher matcherUpdate) {
         String tableName = matcherUpdate.group(1);
         String setStr = matcherUpdate.group(2);
         String whereStr = matcherUpdate.group(3);
-
+        List failed = new ArrayList();
+        failed.add("failed");
         Table table = Table.getTable(tableName);
         if (null == table) {
             System.out.println("未找到表：" + tableName);
-            return;
+            return failed;
         }
         Map<String, Field> fieldMap = table.getFieldMap();
         Map<String, String> data = StringUtil.parseUpdateSet(setStr);
@@ -357,15 +365,20 @@ public class Operating {
             }
             table.update(data, singleFilters);
         }
+        List success = new ArrayList();
+        success.add("success");
+        return  success;
     }
 
-    private void delete(Matcher matcherDelete) {
+    private List delete(Matcher matcherDelete) {
         String tableName = matcherDelete.group(1);
         String whereStr = matcherDelete.group(2);
+        List failed = new ArrayList();
+        failed.add("failed");
         Table table = Table.getTable(tableName);
         if (null == table) {
             System.out.println("未找到表：" + tableName);
-            return;
+            return failed;
         }
 
         Map<String, Field> fieldMap = table.getFieldMap();
@@ -383,6 +396,9 @@ public class Operating {
             }
             table.delete(singleFilters);
         }
+        List success = new ArrayList();
+        success.add("success");
+        return  success;
     }
 
     private void createTable(Matcher matcherCreateTable) {
