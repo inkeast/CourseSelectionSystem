@@ -705,7 +705,7 @@ public class Table {
                         indexTree = indexMap.get(dataName);
                     }
                     IndexKey indexKey = new IndexKey(dataValue, dataType);
-                    indexTree.putIndex(indexKey, dataFile.getAbsolutePath(), lineNum);
+                    indexTree.putIndex(indexKey, dataFile.getPath(), lineNum);
                 }
             }
         }
