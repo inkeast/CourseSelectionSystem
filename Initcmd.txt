@@ -1,0 +1,21 @@
+drop table student;
+drop table course;
+drop table infor;
+create table student (SID int,classes int,sname varchar,sex varchar) ;
+create table course (CID int,cname varchar,tolnum int,renum int,penum int) ;
+create table infor (SID int,CID int,time varchar) ;
+insert into student(SID,classes,sname,sex) values(1,1803,陶之,男) ;
+insert into student(SID,classes,sname,sex) values(2,1802,慕灵,女) ;
+insert into student(SID,classes,sname,sex) values(3,1801,云若烟,男) ;
+insert into student(SID,classes,sname,sex) values(4,1802,夙玉,女) ;
+insert into student(SID,classes,sname,sex) values(5,1802,李凌雪,女) ;
+insert into student(SID,classes,sname,sex) values(6,1801,张采文,男) ;
+insert into student(SID,classes,sname,sex) values(7,1801,李玉双,女) ;
+insert into student(SID,classes,sname,sex) values(8,1802,赵竹猗,男) ;
+insert into student(SID,classes,sname,sex) values(9,1803,唐雨柔,女) ;
+insert into course(CID,cname,tolnum,renum,penum) values(1,高等数学,500,500,0) ;
+insert into course(CID,cname,tolnum,renum,penum) values(2,编译原理,500,500,0) ;
+insert into course(CID,cname,tolnum,renum,penum) values(3,数据库设计与应用,500,500,0) ;
+select * from course
+select * from student
+select * from infor

@@ -26,6 +26,8 @@ public class Operating {
         Matcher matcherInsert = PATTERN_INSERT.matcher(cmd);
         Matcher matcherDelete = PATTERN_DELETE.matcher(cmd);
         Matcher matcherUpdate = PATTERN_UPDATE.matcher(cmd);
+        Matcher matcherDropTable = PATTERN_DROP_TABLE.matcher(cmd);
+        Matcher matcherCreateTable = PATTERN_CREATE_TABLE.matcher(cmd);
 
         List result=null;
         if(matcherSelect.find()) {
@@ -39,6 +41,12 @@ public class Operating {
         }
         if(matcherUpdate.find()) {
             result = update(matcherUpdate);
+        }
+        if(matcherDropTable.find()) {
+            dropTable(matcherDropTable);
+        }
+        if(matcherCreateTable.find()) {
+            createTable(matcherCreateTable);
         }
         return result;
     }
@@ -187,7 +195,7 @@ public class Operating {
 
         List<String> tableNames = StringUtil.parseFrom(matcherSelect.group(2));
 
-        System.out.println(matcherSelect.group(2));
+        //System.out.println(matcherSelect.group(2));
 
         String whereStr = matcherSelect.group(3);
 
@@ -411,7 +419,7 @@ public class Operating {
     private void dropTable(Matcher matcherDropTable) {
         String tableName = matcherDropTable.group(1);
         System.out.println(Table.dropTable(tableName));
-    }
+}
 
     private void alterTableAdd(Matcher matcherAlterTable_add) {
         String tableName = matcherAlterTable_add.group(1);
