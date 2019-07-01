@@ -1,4 +1,4 @@
-SID int ^
+SID int *
 classes int ^
 sname varchar ^
 sex varchar ^

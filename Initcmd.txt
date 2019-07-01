@@ -1,7 +1,7 @@
 drop table student;
 drop table course;
 drop table infor;
-create table student (SID int,classes int,sname varchar,sex varchar) ;
+create table student (SID int *,classes int,sname varchar,sex varchar) ;
 create table course (CID int,cname varchar,tolnum int,renum int,penum int) ;
 create table infor (SID int,CID int,time varchar) ;
 insert into student(SID,classes,sname,sex) values(1,1803,陶之,男) ;

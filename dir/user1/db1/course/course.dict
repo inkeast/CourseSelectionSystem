@@ -1,5 +1,0 @@
-CID int ^
-cname varchar ^
-tolnum int ^
-renum int ^
-penum int ^
