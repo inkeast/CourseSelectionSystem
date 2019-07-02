@@ -30,6 +30,10 @@ public class Table {
         this.indexMap = new HashMap<>();
     }
 
+    public String GetIndexPath(){
+        return "dir" + "/" + userName + "/" + dbName + "/" + name + "/" + name + ".index";
+    }
+
 
     /**
      * 初始化表信息，包括用户和数据库

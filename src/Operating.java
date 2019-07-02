@@ -302,10 +302,13 @@ public class Operating {
     private List insert(Matcher matcherInsert) {
         String tableName = matcherInsert.group(1);
         Table table = Table.getTable(tableName);
+        Map<String, Field> fieldMap = table.getFieldMap();
+        List<Map<String, String>> filtList = new LinkedList<>();
         List failed = new ArrayList();
         failed.add("failed");
         if (null == table) {
             System.out.println("未找到表：" + tableName);
+            failed.add("1");
             return failed;
         }
         Map dictMap = table.getFieldMap();
@@ -326,6 +329,13 @@ public class Operating {
                 if (!dictMap.containsKey(fieldName)) {
                     return failed;
                 }
+                if(fieldMap.get(fieldNames[i].trim()).isPrimaryKey()==true){//主键查找重复
+                    Map<String, String> filtMap = new LinkedHashMap<>();
+                    filtMap.put("fieldName", fieldName);
+                    filtMap.put("relationshipName", "=");
+                    filtMap.put("condition", fieldValue);
+                    filtList.add(filtMap);
+                }
                 data.put(fieldName, fieldValue);
             }
         } else {//否则插入全部字段
@@ -339,6 +349,13 @@ public class Operating {
                 i++;
             }
         }
+        File file = new File(table.GetIndexPath());
+        if(file.exists())
+            if(InsertFindDuplication(filtList,fieldMap,tableName).size()!=0){
+                failed.add("2");
+                return failed;
+            }
+
         table.insert(data);
         List success = new ArrayList();
         success.add("success");
@@ -451,6 +468,35 @@ public class Operating {
             destDatas.add(destData);
         }
         return destDatas;
+    }
+
+    private List InsertFindDuplication(List<Map<String, String>> filtList,Map<String, Field> fieldMap,String tableName){
+        List<SingleFilter> singleFilters = new ArrayList<>();
+        Map<String, List<String>> projectionMap = new LinkedHashMap<>();
+        Table table = Table.getTable(tableName);
+        //将读到的所有数据放到tableDatasMap中
+        Map<String, List<Map<String, String>>> tableDatasMap = new LinkedHashMap<>();
+        for (Map<String, String> filtMap : filtList) {
+            SingleFilter singleFilter = new SingleFilter(fieldMap.get(filtMap.get("fieldName"))
+                    , filtMap.get("relationshipName"), filtMap.get("condition"));//core
+
+            singleFilters.add(singleFilter);
+        }
+
+        //解析最终投影
+        List<String> projections = StringUtil.parseProjection("*", tableName, fieldMap);
+        projectionMap.put(tableName, projections);
+
+
+        //读取数据并进行选择操作
+        List<Map<String, String>> srcDatas = table.read(singleFilters);
+        List<Map<String, String>> datas = associatedTableName(tableName, srcDatas);
+
+        tableDatasMap.put(tableName, datas);
+
+    List<Map<String, String>> resultDatas = Join.joinData(tableDatasMap, null, projectionMap);
+
+    return  resultDatas;
     }
 
 }
