@@ -33,6 +33,7 @@ public class Operating {
         if(matcherSelect.find()) {
             result = select(matcherSelect);
         }
+
         if(matcherInsert.find()) {
             result = insert(matcherInsert);
         }

@@ -9,8 +9,13 @@ public class TestClient {
 
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-        dataOutputStream.writeUTF("select * from student where SID = 10 ;\n");
-        list = (List)objectInputStream.readObject();
-        System.out.println(list);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        while (true){
+            dataOutputStream.writeUTF(bufferedReader.readLine()+"\n");
+            dataOutputStream.flush();
+            list = (List)objectInputStream.readObject();
+            System.out.println(list);
+        }
+
     }
 }

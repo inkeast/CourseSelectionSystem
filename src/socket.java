@@ -3,26 +3,52 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
-public class socket {
+public class socket extends Thread {
      private static int port = 2048;
+     public static Operating operating = new Operating();
+     private static ServerSocket serverSocket;
+     private static int MaxThread = 8 ;
+     private static int ThreadNum = 0 ;
+     private static Object lock = new Object();
+
+
+     public void run(){
+         String data;
+         List result = null;
+         try{
+             Socket socket = serverSocket.accept();
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
+             ObjectOutputStream  objectOutputStream = new ObjectOutputStream (socket.getOutputStream());
+             while (((data = bufferedReader.readLine())!=null)){
+                 result = operating.dbms_online(data);
+                 objectOutputStream.writeUnshared(result);
+                 objectOutputStream.flush();
+             }
+             objectOutputStream.close();
+             bufferedReader.close();
+             socket.close();
+             synchronized (lock){ThreadNum--;}
+             this.interrupt();
+         }
+         catch (IOException io){
+             synchronized (lock){ThreadNum--;}
+            this.interrupt();
+         }
+     }
 
      public static void main(String [] args) throws Exception{
-         ServerSocket serverSocket = new ServerSocket(port);
-         Socket socket = serverSocket.accept();
-         Operating operating = new Operating();
+         serverSocket = new ServerSocket(port);
          operating.init();
-
-         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
-         ObjectOutputStream  objectOutputStream = new ObjectOutputStream (socket.getOutputStream());
-         String x;
-         List result = null;
-         while ((x = bufferedReader.readLine())!=null){
-             System.out.println(x);
-             result = operating.dbms_online(x);
-             objectOutputStream.writeUnshared(result);
-             objectOutputStream.flush();
+         int now;
+         while (true){
+             synchronized (lock){now = ThreadNum;}
+             if(now < MaxThread ){
+                 synchronized (lock){ThreadNum++;}
+                 socket sockets = new socket();
+                 sockets.start();
+             }
+             sleep(1);
          }
-
      }
 
 }
