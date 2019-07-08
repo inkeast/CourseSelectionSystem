@@ -32,6 +32,7 @@ public class socket extends Thread {
          }
          catch (IOException io){
              synchronized (lock){ThreadNum--;}
+             System.out.println(io);
             this.interrupt();
          }
      }

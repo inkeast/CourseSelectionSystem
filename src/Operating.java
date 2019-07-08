@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,8 @@ public class Operating {
     private static final Pattern PATTERN_DELETE_INDEX = Pattern.compile("delete\\sindex\\s(\\w+)\\s?;");
     private static final Pattern PATTERN_GRANT_ADMIN = Pattern.compile("grant\\sadmin\\sto\\s([^;\\s]+)\\s?;");
     private static final Pattern PATTERN_REVOKE_ADMIN = Pattern.compile("revoke\\sadmin\\sfrom\\s([^;\\s]+)\\s?;");
+
+    private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 
     public void init(){
         User user = User.getUser("user1", "abc");
@@ -30,24 +33,37 @@ public class Operating {
         Matcher matcherCreateTable = PATTERN_CREATE_TABLE.matcher(cmd);
 
         List result=null;
+
         if(matcherSelect.find()) {
+            rwl.readLock().lock();
             result = select(matcherSelect);
+            rwl.readLock().unlock();
         }
 
         if(matcherInsert.find()) {
+            rwl.writeLock().lock();
             result = insert(matcherInsert);
+            rwl.writeLock().unlock();
         }
         if(matcherDelete.find()) {
+            rwl.writeLock().lock();
             result = delete(matcherDelete);
+            rwl.writeLock().unlock();
         }
         if(matcherUpdate.find()) {
+            rwl.writeLock().lock();
             result = update(matcherUpdate);
+            rwl.writeLock().unlock();
         }
         if(matcherDropTable.find()) {
+            rwl.writeLock().lock();
             dropTable(matcherDropTable);
+            rwl.writeLock().unlock();
         }
         if(matcherCreateTable.find()) {
+            rwl.writeLock().lock();
             createTable(matcherCreateTable);
+            rwl.writeLock().unlock();
         }
         return result;
     }
