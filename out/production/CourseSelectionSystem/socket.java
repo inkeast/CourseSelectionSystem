@@ -7,7 +7,7 @@ public class socket extends Thread {
      private static int port = 2048;
      public static Operating operating = new Operating();
      private static ServerSocket serverSocket;
-     private static int MaxThread = 8 ;
+     private static int MaxThread = 128 ;
      private static int ThreadNum = 0 ;
      private static Object lock = new Object();
 
