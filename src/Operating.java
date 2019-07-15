@@ -245,6 +245,7 @@ public class Operating {
 
             //读取数据并进行选择操作
             List<Map<String, String>> srcDatas = table.read(singleFilters);
+            if(srcDatas == null ){List nulllist = new LinkedList();return nulllist;}
             List<Map<String, String>> datas = associatedTableName(tableName, srcDatas);
 
             tableDatasMap.put(tableName, datas);

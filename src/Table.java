@@ -509,6 +509,7 @@ public class Table {
         List<Map<String, String>> datas = new ArrayList<>();
         if (null != singleFilters && 0 != singleFilters.size()) {
             Set<File> fileSet = findFileSet(singleFilters);
+            if(fileSet == null)return null;
             for (File file : fileSet) {
                 datas.addAll(readFilter(file, singleFilters));
                 //datas.addAll(readDatas(file));
@@ -724,6 +725,7 @@ public class Table {
     }
 
     private Set<File> findFileSet(List<SingleFilter> singleFilters) {
+        try{
         Set<File> fileSet = new HashSet<>();
         //此处查找索引
         for (SingleFilter singleFilter : singleFilters) {
@@ -737,6 +739,9 @@ public class Table {
             fileSet.addAll(indexTree.getFiles(relationship, indexKey));
         }
         return fileSet;
+    }catch (NullPointerException npe){
+            return null;
+        }
     }
 
 }
