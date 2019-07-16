@@ -16,6 +16,7 @@ public class TestClient {
             list = (List)objectInputStream.readObject();
             System.out.println(list);
         }
-
     }
 }
+
+

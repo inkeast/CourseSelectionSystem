@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-import java.util.List;
+import java.util.*;
 
 public class ClientSocket {
     private BufferedReader dis = null;
@@ -9,29 +9,40 @@ public class ClientSocket {
     ObjectInputStream objectInputStream=null;
 
     public ClientSocket(String host, int port) throws Exception {
-        Socket s = new Socket(host, port); // 这个Socket对象创建完毕后何时销毁？
+        Socket s = new Socket(host, port);
         dis = new BufferedReader(new InputStreamReader(s.getInputStream()));
         dos = new PrintWriter(s.getOutputStream());
         objectInputStream = new ObjectInputStream(s.getInputStream());
     }
 
+    public void showList(List<Map<String, String>> list){
+
+        for(Map<String, String> m : list){
+            for(String k : m.keySet()){
+                String val = m.get(k);
+                System.out.print(k +":"+ val+"  ");
+            }
+            System.out.println();
+        }
+
+    }
+
+
     public void userLookCourse()throws Exception{
         dos.println("1");
         dos.flush();
         list = (List)objectInputStream.readObject();//接受数据库传来的表
-        System.out.println(list);
+        showList(list);
     }
 
 
     public void userChooseCourse(String sid, String cid)throws Exception{
         dos.println("2");
         dos.flush();
-
         dis.readLine();
 
         dos.println(sid);
         dos.flush();
-
         dis.readLine();
 
 
@@ -100,7 +111,7 @@ public class ClientSocket {
         dos.flush();
 
         list = (List)objectInputStream.readObject();//接受数据库传来的表
-        System.out.println(list);
+        showList(list);
     }
 
 }

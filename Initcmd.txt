@@ -104,9 +104,10 @@ insert into student(SID,classes,sname,sex) values(97,1803,凝染,女) ;
 insert into student(SID,classes,sname,sex) values(98,1801,何谨,男) ;
 insert into student(SID,classes,sname,sex) values(99,1801,卿晨,女) ;
 insert into student(SID,classes,sname,sex) values(100,1802,夜隐玥,男) ;
-insert into course(CID,cname,tolnum,renum,penum) values(1,高等数学,500,500,0) ;
-insert into course(CID,cname,tolnum,renum,penum) values(2,编译原理,500,500,0) ;
-insert into course(CID,cname,tolnum,renum,penum) values(3,数据库设计与应用,500,500,0) ;
+insert into student(SID,classes,sname,sex) values(100,1802,夜隐玥,男) ;
+insert into course(CID,cname,tolnum,renum,penum) values(1,高等数学,30,30,0) ;
+insert into course(CID,cname,tolnum,renum,penum) values(2,编译原理,30,30,0) ;
+insert into course(CID,cname,tolnum,renum,penum) values(3,数据库设计与应用,30,30,0) ;
 select * from course
 select * from student
 select * from infor

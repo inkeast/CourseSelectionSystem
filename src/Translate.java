@@ -32,13 +32,13 @@ public class Translate //将接收到的客户端指令转化成 对应的SQL语
         return translate;
     }
 
-    public static String course_renum(String value)//判断课余量大于0
+    public  static String course_renum(String value)//判断课余量大于0
     {
         String translate = new String("select * from course where course.CID = " + value + " and renum > 0 ;");
 
         return translate;
     }
-    public static String penum_0(String value)//判断penum为零
+    public  static String penum_0(String value)//判断penum为零
     {
         String translate = new String("select * from course where course.CID = " + value + " and penum = 0 ;");
 
@@ -48,7 +48,7 @@ public class Translate //将接收到的客户端指令转化成 对应的SQL语
     public static String add_infor(String sid, String cid, String time)//生成  向选课记录中插入一条信息的  SQL语句
 
     {
-        String translate = new String("insert into infor ( SID , CID , time ) values ( " + sid + " , " + cid + " , " + time + " ) ;");
+        String translate = new String("insert into infor(SID,CID,time) values(" + sid + "," + cid + "," + time + ") ;");
 
         return translate;
 
@@ -57,7 +57,7 @@ public class Translate //将接收到的客户端指令转化成 对应的SQL语
 
     public static String delete_infor(String sid, String cid)// 生成退课语句
     {
-        String translate = new String("delete from infor where SID = " + sid + " and CID = " + cid + " ) ;");
+        String translate = new String("delete from infor where SID = " + sid + " and CID = " + cid + " ;");
 
         return translate;
     }
@@ -77,24 +77,19 @@ public class Translate //将接收到的客户端指令转化成 对应的SQL语
 
     public static String addcourse(String cid, String cname, String tolnum)// 生成增课语句
     {
-        String translate = new String("insert into course ( CID , cname , tolnum , renum , penum ) values ( " + cid + " , " + cname + " , " + tolnum + " , " + tolnum + " , " + " 0 ) ;");
+        String translate = new String("insert into course(CID,cname,tolnum,renum,penum) values(" + cid + "," + cname + "," + tolnum + "," + tolnum + "," + "0) ;");
 
         return translate;
     }
 
-    public static String renum_reduce(String cid)// 课余量-1
+    public  static String renum_change(String cid,int renum,int penum)// 课余量更改
     {
-        String translate = new String("update course set renum = renum - 1 , penum = penum + 1 where CID = " + cid + " ;");
+        String translate = new String("update course set renum = "+renum+" , penum = "+penum+" where CID = " + cid + " ;");
 
         return translate;
     }
 
-    public static String renum_incrase(String cid)// 课余量+1
-    {
-        String translate = new String("update course set renum = renum + 1 , penum = penum - 1 where CID = " + cid + " ;");
 
-        return translate;
-    }
 
 
     public static void main(String[] args) {

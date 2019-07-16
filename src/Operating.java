@@ -206,19 +206,12 @@ public class Operating {
     private List select(Matcher matcherSelect) {
         //将读到的所有数据放到tableDatasMap中
         Map<String, List<Map<String, String>>> tableDatasMap = new LinkedHashMap<>();
-
         //将投影放在Map<String,List<String>> projectionMap中
         Map<String, List<String>> projectionMap = new LinkedHashMap<>();
-
         List<String> tableNames = StringUtil.parseFrom(matcherSelect.group(2));
-
-        //System.out.println(matcherSelect.group(2));
-
         String whereStr = matcherSelect.group(3);
-
         //将tableName和table.fieldMap放入
         Map<String, Map<String, Field>> fieldMaps = new HashMap();
-
         for (String tableName : tableNames) {
             Table table = Table.getTable(tableName);
             if (null == table) {
@@ -227,31 +220,23 @@ public class Operating {
             }
             Map<String, Field> fieldMap = table.getFieldMap();
             fieldMaps.put(tableName, fieldMap);
-
             //解析选择
             List<SingleFilter> singleFilters = new ArrayList<>();
             List<Map<String, String>> filtList = StringUtil.parseWhere(whereStr, tableName, fieldMap);
             for (Map<String, String> filtMap : filtList) {
                 SingleFilter singleFilter = new SingleFilter(fieldMap.get(filtMap.get("fieldName"))
                         , filtMap.get("relationshipName"), filtMap.get("condition"));
-
                 singleFilters.add(singleFilter);
             }
-
             //解析最终投影
             List<String> projections = StringUtil.parseProjection(matcherSelect.group(1), tableName, fieldMap);
             projectionMap.put(tableName, projections);
-
-
             //读取数据并进行选择操作
             List<Map<String, String>> srcDatas = table.read(singleFilters);
             if(srcDatas == null ){List nulllist = new LinkedList();return nulllist;}
             List<Map<String, String>> datas = associatedTableName(tableName, srcDatas);
-
             tableDatasMap.put(tableName, datas);
         }
-
-
         //解析连接条件，并创建连接对象jion
         List<Map<String, String>> joinConditionMapList = StringUtil.parseWhere_join(whereStr, fieldMaps);
         List<JoinCondition> joinConditionList = new LinkedList<>();
@@ -264,18 +249,17 @@ public class Operating {
             Field field2 = fieldMaps.get(tableName2).get(fieldName2);
             String relationshipName = joinMap.get("relationshipName");
             JoinCondition joinCondition = new JoinCondition(tableName1, tableName2, field1, field2, relationshipName);
-
             joinConditionList.add(joinCondition);
-
             //将连接条件的字段加入投影中
             projectionMap.get(tableName1).add(fieldName1);
             projectionMap.get(tableName2).add(fieldName2);
         }
-
         List<Map<String, String>> resultDatas = Join.joinData(tableDatasMap, joinConditionList, projectionMap);
-        //System.out.println(resultDatas);
+        return resultDatas;
+    }
 
-        //将需要显示的字段名按table.filed的型式存入dataNameList
+    /*
+           //将需要显示的字段名按table.filed的型式存入dataNameList
         List<String> dataNameList = new LinkedList<>();
         for (Map.Entry<String, List<String>> projectionEntry : projectionMap.entrySet()) {
             String projectionKey = projectionEntry.getKey();
@@ -283,9 +267,7 @@ public class Operating {
             for (String projectionValue : projectionValues) {
                 dataNameList.add(projectionKey + "." + projectionValue);
             }
-
         }
-
         //计算名字长度，用来对齐数据
         int[] lengh = new int[dataNameList.size()];
         Iterator<String> dataNames = dataNameList.iterator();
@@ -313,9 +295,7 @@ public class Operating {
                 }
             }
             System.out.println("|");
-        }
-        return resultDatas;
-    }
+        }*/
 
     private List insert(Matcher matcherInsert) {
         String tableName = matcherInsert.group(1);
@@ -347,7 +327,7 @@ public class Operating {
                 if (!dictMap.containsKey(fieldName)) {
                     return failed;
                 }
-                if(fieldMap.get(fieldNames[i].trim()).isPrimaryKey()==true){//主键查找重复
+                if(fieldMap.get(fieldNames[i].trim()).isPrimaryKey()==true){
                     Map<String, String> filtMap = new LinkedHashMap<>();
                     filtMap.put("fieldName", fieldName);
                     filtMap.put("relationshipName", "=");
@@ -373,7 +353,6 @@ public class Operating {
                 failed.add("2");
                 return failed;
             }
-
         table.insert(data);
         List success = new ArrayList();
         success.add("success");

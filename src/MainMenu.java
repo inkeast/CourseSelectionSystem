@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**
@@ -5,6 +9,24 @@ import java.util.Scanner;
  *
  */
 public class MainMenu {
+    private static String ip;
+    private static int port;
+    public static void readsocket()
+    {
+        try{File file=new File(".\\socket.txt");
+        InputStreamReader read = new InputStreamReader(
+                new FileInputStream(file),"utf-8");
+        BufferedReader bufferedReader = new BufferedReader(read);
+        String lineTxt;
+        while((lineTxt = bufferedReader.readLine()) != null){
+            if(lineTxt.equals("serverport:")){port=Integer.parseInt(bufferedReader.readLine());}
+
+            if(lineTxt.equals("ip:")){ip=bufferedReader.readLine();}
+
+        }
+        read.close();}catch (Exception e){};
+    }
+
     public static void main(String[] args) throws Exception {
         System.out.println("_________________________");
         System.out.println("      欢迎使用选课系统         ");
@@ -16,8 +38,8 @@ public class MainMenu {
         System.out.println("    6.更改学生信息");
         System.out.println("    7.退出选课系统");
         System.out.println("_________________________");
-
-        ClientSocket UserService = new ClientSocket("127.0.0.1",9999);
+        readsocket();
+        ClientSocket UserService = new ClientSocket(ip,port);
         Scanner sc = new Scanner(System.in);
         while (true){
             int a = sc.nextInt();

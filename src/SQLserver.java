@@ -7,10 +7,24 @@ public class SQLserver extends Thread {
     private static int port = 2048;
     public static Operating operating = new Operating();
     private static ServerSocket serverSocket;
-    private static int MaxThread = 8 ;
+    private static int MaxThread = 1024 ;
     private static int ThreadNum = 0 ;
     private static Object lock = new Object();
 
+    public static void  readsocket()
+    {
+        try{File file=new File(".\\socket.txt");
+            InputStreamReader read = new InputStreamReader(
+                    new  FileInputStream(file),"utf-8");
+            BufferedReader bufferedReader = new BufferedReader(read);
+            String lineTxt;
+            while((lineTxt = bufferedReader.readLine()) != null){
+
+                if(lineTxt.equals("databaseport:")){port=Integer.parseInt(bufferedReader.readLine());}
+
+            }
+            read.close();}catch (Exception e){};
+    }
 
     public void run(){
         String data;
@@ -38,6 +52,7 @@ public class SQLserver extends Thread {
     }
 
     public static void main(String [] args) throws Exception{
+        readsocket();
         serverSocket = new ServerSocket(port);
         operating.init();
         int now;
@@ -51,5 +66,4 @@ public class SQLserver extends Thread {
             sleep(1);
         }
     }
-
 }
