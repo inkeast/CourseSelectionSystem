@@ -37,12 +37,11 @@ public class MainMenu {
         System.out.println("    5.增加课程");
         System.out.println("    6.使用控制语句");
         System.out.println("    7.退出选课系统");
-        System.out.println("_________________________");
         readsocket();
         ClientSocket UserService = new ClientSocket(ip,port);
         Scanner sc = new Scanner(System.in);
         while (true){
-            System.out.println("    Waiting for input");
+            System.out.println("--------Waiting for input---------");
             int a = sc.nextInt();
             switch (a) {
                 case 1:

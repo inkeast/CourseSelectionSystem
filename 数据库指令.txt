@@ -10,3 +10,5 @@ delete from student where SID = 5 and sex = ≈Æ ;
 update student set sname = »Ù—Ã where SID = 3 ;
 select * from student where SID = 4 and classes = 1802 ;
 insert into infor(SID,CID,time) values(2,2,2017-91-16#15:39) ;
+
+select * from student,infor where student.SID = infor.SID and infor.CID = 2 ;

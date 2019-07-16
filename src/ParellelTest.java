@@ -14,8 +14,8 @@ class ThreadChooseCourse extends Thread{
             try {
                 ClientSocket UserService = new ClientSocket(host, port);
                 while (count--!=0) {
-                    String sid = "" + new Random().nextInt(200);
-                    String cid = "" + new Random().nextInt(3);
+                    String sid = "" + (new Random().nextInt(100)+1);
+                    String cid = "" + (new Random().nextInt(3)+1);
                     UserService.userChooseCourse(sid, cid);}
             } catch (Exception io) {
                 io.printStackTrace();

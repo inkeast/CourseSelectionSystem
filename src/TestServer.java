@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 
 public class  TestServer extends Thread{
     private static ServerSocket ss;
+    private static Object lock = new Object();
     public Socket s;
     private static String ip=null;
     private static int serverport;
@@ -52,6 +53,7 @@ public class  TestServer extends Thread{
         //选课
         public synchronized static void choose_course(Socket s,DataOutputStream dataOutputStream,ObjectInputStream objectInputStream)throws Exception
     {   List list=null;
+        String str;
         Translate c=new Translate();
         send("success1", s);
 
@@ -61,24 +63,27 @@ public class  TestServer extends Thread{
         String cid = receive(s);
         send("success3", s);
 
-
-        dataOutputStream.writeUTF(c.find_s_byid(sid) + "\n");//先查学生是否存在
-
-        list = (List) objectInputStream.readObject();
-        if (list.size()==0) {
-            send("学生不存在", s);
-            return;
+        str = c.find_s_byid(sid);
+        if(!cache.CacheDir.containsKey(str)) {
+            dataOutputStream.writeUTF(str + "\n");//先查学生是否存在
+            list = (List) objectInputStream.readObject();
+            if (list.size() == 0) {
+                send("学生不存在", s);
+                return;
+            }
+            cache.CacheDir.put(str,list);
         }
         ;
-
-        dataOutputStream.writeUTF(c.find_c_byid(cid) + "\n");//查课程是否存在
-        list = (List) objectInputStream.readObject();
-        if (list.size()==0) {
-
-            send("课程不存在", s);
-            return;
+        str = c.find_c_byid(cid);
+        if(!cache.CacheDir.containsKey(str)) {
+            dataOutputStream.writeUTF(str + "\n");//查课程是否存在
+            list = (List) objectInputStream.readObject();
+            if (list.size() == 0) {
+                send("课程不存在", s);
+                return;
+            }
+            cache.CacheDir.put(str,list);
         }
-        ;
 
         dataOutputStream.writeUTF(c.course_renum(cid) + "\n");//查课余量不为0
         list = (List) objectInputStream.readObject();
@@ -226,6 +231,7 @@ public class  TestServer extends Thread{
                    }
                    case "4": {//删课
                        remove_course(s,dataOutputStream,objectInputStream);
+                       cache.CacheDir.clear();
                        break;
 
                    }
