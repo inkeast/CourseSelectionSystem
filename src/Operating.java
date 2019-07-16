@@ -34,6 +34,8 @@ public class Operating {
 
         List result=null;
 
+        System.out.println(rwl.getQueueLength());
+
         if(matcherSelect.find()) {
             rwl.readLock().lock();
             result = select(matcherSelect);

@@ -55,15 +55,13 @@ public class SQLserver extends Thread {
         readsocket();
         serverSocket = new ServerSocket(port);
         operating.init();
-        int now;
         while (true){
-            synchronized (lock){now = ThreadNum;}
-            if(now < MaxThread ){
+            if(ThreadNum < MaxThread ){
                 synchronized (lock){ThreadNum++;}
                 SQLserver sockets = new SQLserver();
                 sockets.start();
             }
-            sleep(1);
+            //sleep(1);
         }
     }
 }

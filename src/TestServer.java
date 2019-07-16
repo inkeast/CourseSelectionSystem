@@ -285,7 +285,7 @@ public class  TestServer extends Thread{
             ts.s = ss.accept();
             ts.start();
             //pool.submit()
-            sleep(1);
+            //sleep(1);
             }
 
         }
