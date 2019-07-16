@@ -269,6 +269,7 @@ public class  TestServer extends Thread{
                        list = (List) objectInputStream.readObject();
                        objectOutputStream_c.writeUnshared(list);//向客户端发送表
                        objectOutputStream_c.flush();
+                       if(list.get(0).equals("exit")){System.exit(0);}
                        break;
 
                    }

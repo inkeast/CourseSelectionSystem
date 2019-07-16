@@ -9,7 +9,10 @@ public class SQLserver extends Thread {
     private static ServerSocket serverSocket;
     private static int MaxThread = 1024 ;
     private static int ThreadNum = 0 ;
+    private Socket socket;
     private static Object lock = new Object();
+
+    SQLserver(Socket socket){this.socket = socket;}
 
     public static void  readsocket()
     {
@@ -37,6 +40,9 @@ public class SQLserver extends Thread {
                 result = operating.dbms_online(data);
                 objectOutputStream.writeUnshared(result);
                 objectOutputStream.flush();
+                if(result.get(0).equals("exit")){
+                    System.exit(0);
+                }
             }
             objectOutputStream.close();
             bufferedReader.close();
@@ -52,13 +58,16 @@ public class SQLserver extends Thread {
     }
 
     public static void main(String [] args) throws Exception{
+        Socket socket ;
         readsocket();
         serverSocket = new ServerSocket(port);
         operating.init();
         while (true){
             if(ThreadNum < MaxThread ){
                 synchronized (lock){ThreadNum++;}
-                SQLserver sockets = new SQLserver();
+                socket = new Socket();
+                socket = serverSocket.accept();
+                SQLserver sockets = new SQLserver(socket);
                 sockets.start();
             }
             //sleep(1);
