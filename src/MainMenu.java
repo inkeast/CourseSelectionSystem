@@ -31,17 +31,18 @@ public class MainMenu {
         System.out.println("_________________________");
         System.out.println("      欢迎使用选课系统         ");
         System.out.println("    1.查询课程信息");
-        System.out.println("    2.选择可选课程");
+        System.out.println("    2.  选择课程  ");
         System.out.println("    3.退掉已选课程");
         System.out.println("    4.删除课程");
         System.out.println("    5.增加课程");
-        System.out.println("    6.更改学生信息");
+        System.out.println("    6.使用控制语句");
         System.out.println("    7.退出选课系统");
         System.out.println("_________________________");
         readsocket();
         ClientSocket UserService = new ClientSocket(ip,port);
         Scanner sc = new Scanner(System.in);
         while (true){
+            System.out.println("    Waiting for input");
             int a = sc.nextInt();
             switch (a) {
                 case 1:
@@ -81,7 +82,7 @@ public class MainMenu {
                     UserService.addCourse(c, cname, to);
                     break;
                 case 6:
-                    System.out.println("请输入sql:");
+                    System.out.println("请输入控制语句:");
                     String k=sc.nextLine();
                     String op = sc.nextLine();
                     System.out.println(op);

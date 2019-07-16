@@ -40,7 +40,7 @@ public class SQLserver extends Thread {
                 result = operating.dbms_online(data);
                 objectOutputStream.writeUnshared(result);
                 objectOutputStream.flush();
-                if(result.get(0).equals("exit")){
+                if(result.size()!=0&&result.get(0).equals("exit")){
                     System.exit(0);
                 }
             }
@@ -65,7 +65,6 @@ public class SQLserver extends Thread {
         while (true){
             if(ThreadNum < MaxThread ){
                 synchronized (lock){ThreadNum++;}
-                socket = new Socket();
                 socket = serverSocket.accept();
                 SQLserver sockets = new SQLserver(socket);
                 sockets.start();

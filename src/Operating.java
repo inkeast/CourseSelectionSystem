@@ -64,11 +64,11 @@ public class Operating {
             createTable(matcherCreateTable);
             rwl.writeLock().unlock();
         }
-/*        if(matcherExit.find()){
+        if(matcherExit.find()){
             while (rwl.getQueueLength()!=0);
             result = new LinkedList();
             result.add("exit");
-        }*/
+        }
         return result;
     }
 

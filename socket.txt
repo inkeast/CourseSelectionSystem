@@ -1,0 +1,6 @@
+serverport:
+9999
+databaseport:
+2048
+ip:
+127.0.0.1
