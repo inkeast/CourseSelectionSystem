@@ -84,7 +84,7 @@ public class MainMenu {
                     System.out.println("请输入控制语句:");
                     String k=sc.nextLine();
                     String op = sc.nextLine();
-                    System.out.println(op);
+                    //System.out.println(op);
                     UserService.updateStudent(op);
                     break;
                 case 7:
