@@ -112,7 +112,8 @@ public class ClientSocket {
 
         list = (List)objectInputStream.readObject();//接受数据库传来的表
         if(list.get(0).equals("exit")){System.exit(0);}
-        showList(list);
+        for(int i = 0; i < list.size(); i++)
+            System.out.println(list.get(i));
     }
 
 }

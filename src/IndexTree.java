@@ -17,7 +17,7 @@ public class IndexTree implements Serializable {
         this.treeMap = treeMap;
     }
 
-    public List<IndexNode> find(Relationship relationship, IndexKey condition) {
+    public List<IndexNode> find(Relationship relationship, IndexKey condition){
         List<IndexNode> indexNodeList = new ArrayList<>();
         Map<IndexKey, IndexNode> indexNodeMap = null;
         switch (relationship) {
